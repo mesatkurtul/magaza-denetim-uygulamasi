@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mağaza Denetim Uygulaması</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Mağaza Denetim Uygulaması</h1>
+        <p>Denetime başlamak için lütfen denetlenecek mağazanın adını girin.</p>
+        <form action="{{ url_for('audit') }}" method="post">
+            <input type="text" name="store_name" placeholder="Mağaza Adı" required>
+            <button type="submit">Denetimi Başlat</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denetim Sonucu - {{ store_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Denetim Sonucu</h1>
+        <h2>{{ store_name }}</h2>
+        <div class="score-card">
+            <p>Mağaza Puanı</p>
+            <span class="score">{{ score }}/100</span>
+        </div>
+        <a href="{{ url_for('index') }}" class="button">Yeni Denetim Başlat</a>
+    </div>
+</body>
+</html>
