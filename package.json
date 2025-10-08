@@ -2,6 +2,7 @@
   "name": "magaza-denetim-uygulamasi",
   "version": "1.0.0",
   "description": "Web tabanlı React mağaza denetim ve yönetim uygulaması",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@types/node": "^16.18.91",
