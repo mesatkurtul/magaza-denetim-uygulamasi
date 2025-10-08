@@ -1,0 +1,61 @@
+name: Deploy to GitHub Pages
+
+# İş akışının ne zaman çalışacağını belirler
+on:
+  push:
+    branches:
+      - main # Sadece main dalına push yapıldığında çalışır
+
+# İş akışının çalışacağı ortamın izinlerini ayarlar
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# İş akışı adımları
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # İşin çalışacağı sanal makine
+
+    steps:
+      # 1. Depoyu kopyala
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Node.js ortamını kur
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Projenizle uyumlu bir Node.js sürümü
+          cache: 'npm'
+
+      # 3. Bağımlılıkları yükle
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Projeyi derle (build)
+      - name: Build project
+        run: npm run build
+        env:
+          # .env dosyasındaki değişkenleri burada da tanımlamamız gerekir
+          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+          REACT_APP_AUTH_DOMAIN: ${{ secrets.REACT_APP_AUTH_DOMAIN }}
+          REACT_APP_PROJECT_ID: ${{ secrets.REACT_APP_PROJECT_ID }}
+          REACT_APP_STORAGE_BUCKET: ${{ secrets.REACT_APP_STORAGE_BUCKET }}
+          REACT_APP_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}
+          REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
+
+      # 5. Derlenmiş dosyaları GitHub Pages'e yüklemek için yapılandır
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # 6. Derlenmiş dosyaları bir artifact olarak yükle
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './build'
+
+      # 7. Dağıtımı gerçekleştir
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
